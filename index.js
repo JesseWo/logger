@@ -9,6 +9,7 @@ const humanize = require('humanize-number')
 const bytes = require('bytes')
 const chalk = require('chalk')
 const util = require('util')
+const getCurrentTime = require('./dateUtils');
 
 /**
  * Expose logger.
@@ -57,11 +58,13 @@ function dev (opts) {
   return async function logger (ctx, next) {
     // request
     const start = Date.now()
-    print('  ' + chalk.gray('<--') +
-      ' ' + chalk.bold('%s') +
-      ' ' + chalk.gray('%s'),
-        ctx.method,
-        ctx.originalUrl)
+    print(chalk.gray('%s') +
+            '  ' + chalk.gray('<--') +
+            ' ' + chalk.bold('%s') +
+            ' ' + chalk.gray('%s'),
+            getCurrentTime(),
+            ctx.method,
+            ctx.originalUrl)
 
     try {
       await next()
@@ -129,17 +132,19 @@ function log (print, ctx, start, len, err, event) {
     : event === 'close' ? chalk.yellow('-x-')
     : chalk.gray('-->')
 
-  print('  ' + upstream +
+    print(chalk.gray('%s') +
+    '  ' + upstream +
     ' ' + chalk.bold('%s') +
     ' ' + chalk.gray('%s') +
     ' ' + chalk[color]('%s') +
     ' ' + chalk.gray('%s') +
     ' ' + chalk.gray('%s'),
-      ctx.method,
-      ctx.originalUrl,
-      status,
-      time(start),
-      length)
+    getCurrentTime(),
+    ctx.method,
+    ctx.originalUrl,
+    status,
+    time(start),
+    length)
 }
 
 /**
