@@ -10,7 +10,8 @@
     "log"
   ],
   "files": [
-    "index.js"
+    "index.js",
+    "dateUtils.js"
   ],
   "scripts": {
     "lint": "eslint --fix .",
